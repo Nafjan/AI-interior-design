@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Modern Living Room - Mid Range 1",
+    "style": "modern",
+    "budget_tier": "mid",
+    "product_names": [
+      "أريكة استرخاء 3 مقاعد - بورتلاند",
+      "طاولة قهوة دائرية رخام - ماربل",
+      "سجادة غرف المعيشة - بوهيمي",
+      "مصباح أرضي معدني - لومينار",
+      "KALLAX Shelf unit 4x4",
+      "BILLY Bookcase",
+      "BJORKUDDEN Canvas, set of 2",
+      "BESTA TV unit"
+    ]
+  },
+  {
+    "name": "Modern Living Room - Mid Range 2",
+    "style": "modern",
+    "budget_tier": "mid",
+    "product_names": [
+      "أريكة استرخاء 3 مقاعد - بورتلاند",
+      "طاولة قهوة دائرية رخام - ماربل",
+      "سجادة غرف المعيشة - بوهيمي",
+      "مصباح أرضي معدني - لومينار",
+      "KALLAX Shelf unit 4x4",
+      "BILLY Bookcase",
+      "BJORKUDDEN Canvas, set of 2",
+      "BESTA TV unit"
+    ]
+  },
+  {
+    "name": "Minimal Living Room - Mid Range 1",
+    "style": "minimal",
+    "budget_tier": "mid",
+    "product_names": [
+      "أريكة استرخاء 3 مقاعد - بورتلاند",
+      "طاولة قهوة دائرية رخام - ماربل",
+      "سجادة غرف المعيشة - بوهيمي",
+      "مصباح أرضي معدني - لومينار",
+      "KALLAX Shelf unit 4x4",
+      "BILLY Bookcase",
+      "BJORKUDDEN Canvas, set of 2",
+      "BESTA TV unit"
+    ]
+  },
+  {
+    "name": "Minimal Living Room - Mid Range 2",
+    "style": "minimal",
+    "budget_tier": "mid",
+    "product_names": [
+      "أريكة استرخاء 3 مقاعد - بورتلاند",
+      "طاولة قهوة دائرية رخام - ماربل",
+      "سجادة غرف المعيشة - بوهيمي",
+      "مصباح أرضي معدني - لومينار",
+      "KALLAX Shelf unit 4x4",
+      "BILLY Bookcase",
+      "BJORKUDDEN Canvas, set of 2",
+      "BESTA TV unit"
+    ]
+  }
+]

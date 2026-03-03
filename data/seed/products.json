@@ -1,0 +1,163 @@
+[
+  {
+    "name": "أريكة استرخاء 3 مقاعد - بورتلاند",
+    "category": "sofa",
+    "price_sar": 4250.0,
+    "image_urls": [
+      "https://www.alrugaibfurniture.com/cdn/shop/files/elif-rosy-sofa-221cm-5692430.png?v=1769237049"
+    ],
+    "supplier": "alrugaib",
+    "product_url": "https://www.alrugaibfurniture.com/ar/collections/sofas/products/rouge-sofa",
+    "style_tags": [
+      "modern"
+    ]
+  },
+  {
+    "name": "طاولة قهوة دائرية رخام - ماربل",
+    "category": "table",
+    "price_sar": 1450.0,
+    "image_urls": [
+      "https://www.alrugaibfurniture.com/cdn/shop/files/hardy-occasional-coffee-table-3598668.png?v=1770541692"
+    ],
+    "supplier": "alrugaib",
+    "product_url": "https://www.alrugaibfurniture.com/ar/collections/coffee-tables/products/hardy-occasional-coffee-table",
+    "style_tags": [
+      "minimal"
+    ]
+  },
+  {
+    "name": "سجادة غرف المعيشة - بوهيمي",
+    "category": "rug",
+    "price_sar": 950.0,
+    "image_urls": [
+      "https://images.unsplash.com/photo-1622372738946-62e02505feb3?auto=format&fit=crop&w=400&q=80"
+    ],
+    "supplier": "alrugaib",
+    "product_url": "https://www.alrugaibfurniture.com/ar/collections/rugs",
+    "style_tags": [
+      "modern"
+    ]
+  },
+  {
+    "name": "مصباح أرضي معدني - لومينار",
+    "category": "lamp",
+    "price_sar": 650.0,
+    "image_urls": [
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=400&q=80"
+    ],
+    "supplier": "alrugaib",
+    "product_url": "https://www.alrugaibfurniture.com/ar/collections/floor-lamps",
+    "style_tags": [
+      "modern"
+    ]
+  },
+  {
+    "name": "LACK Side table",
+    "category": "table",
+    "price_sar": 39.0,
+    "image_urls": [
+      "https://www.ikea.com/sa/en/images/products/lack-side-table-white__0702210_pe724345_s5.jpg"
+    ],
+    "dimensions_cm": {
+      "width": 55,
+      "depth": 55,
+      "height": 45
+    },
+    "supplier": "ikea",
+    "product_url": "https://www.ikea.com/sa/en/p/lack-side-table-white-30449908/",
+    "style_tags": [
+      "minimal"
+    ]
+  },
+  {
+    "name": "KALLAX Shelf unit 4x4",
+    "category": "shelf",
+    "price_sar": 445.0,
+    "image_urls": [
+      "https://www.ikea.com/sa/en/images/products/kallax-shelving-unit-white__0644757_pe702939_s5.jpg"
+    ],
+    "dimensions_cm": {
+      "width": 147,
+      "depth": 39,
+      "height": 147
+    },
+    "supplier": "ikea",
+    "product_url": "https://www.ikea.com/sa/en/p/kallax-shelf-unit-white-80275887/",
+    "style_tags": [
+      "modern",
+      "minimal"
+    ]
+  },
+  {
+    "name": "BILLY Bookcase",
+    "category": "shelf",
+    "price_sar": 199.0,
+    "image_urls": [
+      "https://www.ikea.com/sa/en/images/products/billy-bookcase-white__0625599_pe692385_s5.jpg"
+    ],
+    "dimensions_cm": {
+      "width": 80,
+      "depth": 28,
+      "height": 202
+    },
+    "supplier": "ikea",
+    "product_url": "https://www.ikea.com/sa/en/p/billy-bookcase-white-00263850/",
+    "style_tags": [
+      "modern"
+    ]
+  },
+  {
+    "name": "BJORKUDDEN Canvas, set of 2",
+    "category": "art",
+    "price_sar": 149.0,
+    "image_urls": [
+      "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=400&q=80"
+    ],
+    "dimensions_cm": {
+      "width": 40,
+      "height": 50
+    },
+    "supplier": "ikea",
+    "product_url": "https://www.ikea.com/sa/en/",
+    "style_tags": [
+      "modern",
+      "minimal"
+    ]
+  },
+  {
+    "name": "BESTA TV unit",
+    "category": "shelf",
+    "price_sar": 525.0,
+    "image_urls": [
+      "https://www.ikea.com/sa/en/images/products/besta-tv-bench-black-brown__0316202_pe516844_s5.jpg"
+    ],
+    "dimensions_cm": {
+      "width": 180,
+      "depth": 40,
+      "height": 38
+    },
+    "supplier": "ikea",
+    "product_url": "https://www.ikea.com/sa/en/p/besta-tv-bench-white-90294512/",
+    "style_tags": [
+      "modern",
+      "minimal"
+    ]
+  },
+  {
+    "name": "GLADOM Tray table",
+    "category": "table",
+    "price_sar": 69.0,
+    "image_urls": [
+      "https://www.ikea.com/sa/en/images/products/gladom-tray-table-black__0567223_pe664991_s5.jpg"
+    ],
+    "dimensions_cm": {
+      "diameter": 45,
+      "height": 53
+    },
+    "supplier": "ikea",
+    "product_url": "https://www.ikea.com/sa/en/p/gladom-tray-table-white-50411990/",
+    "style_tags": [
+      "minimal"
+    ]
+  }
+]

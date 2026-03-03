@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["http://localhost:3000", "https://ai-styling-frontend.cranl.app"],
+    "method": ["GET", "PUT", "POST"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
