@@ -45,27 +45,13 @@ cranl apps env set ai-styling-backend DATABASE_URL="$DATABASE_URL"
 cranl apps env set ai-styling-backend REDIS_URL="$REDIS_URL"
 cranl apps env set ai-styling-backend APP_TYPE="backend"
 
-echo "=== Deploying Worker ==="
-# cranl apps create --repo $REPO_ID --name ai-styling-worker --build-type nixpacks --branch main --build-path api
-# We'll use the same env vars for the worker
-cranl apps env set ai-styling-worker GCP_PROJECT_ID=gulfboost-odoo-login
-cranl apps env set ai-styling-worker GCS_BUCKET=ai-home-styling-poc
-cranl apps env set ai-styling-worker OPENROUTER_API_KEY="$OPENROUTER_API_KEY"
-cranl apps env set ai-styling-worker GOOGLE_CLOUD_API_KEY="$GOOGLE_CLOUD_API_KEY"
-cranl apps env set ai-styling-worker API_URL="$CRANL_BACKEND_URL"
-cranl apps env set ai-styling-worker DATABASE_URL="$DATABASE_URL"
-cranl apps env set ai-styling-worker REDIS_URL="$REDIS_URL"
-cranl apps env set ai-styling-worker APP_TYPE="worker"
-
 echo "=== Deploying Frontend ==="
-# cranl apps create --repo $REPO_ID --name ai-styling-frontend --build-type nixpacks --branch main --build-path frontend
+# cranl apps create --repo $REPO_ID --name ai-styling-frontend --build-type nixpacks --branch main
 cranl apps env set ai-styling-frontend NEXT_PUBLIC_API_URL="$CRANL_BACKEND_URL"
 cranl apps env set ai-styling-frontend APP_TYPE="frontend"
 
 echo "=== Triggering Builds ==="
 cranl apps deploy ai-styling-backend
-# Worker deployment might need to be triggered after creation
-# cranl apps deploy ai-styling-worker
 cranl apps deploy ai-styling-frontend
 
 echo "Done!"
