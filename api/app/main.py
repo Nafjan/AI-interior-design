@@ -12,6 +12,11 @@ from app.routers import analytics, generate, products, styles, upload
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Validate required env vars
+    if not settings.redis_url or "localhost" in settings.redis_url and settings.database_url and "localhost" not in settings.database_url:
+        # Just a warning for local dev vs production
+        print(f"Warning: using redis URL: {settings.redis_url}")
+        
     # Startup
     Path("public").mkdir(exist_ok=True)
     await init_db_pool()
