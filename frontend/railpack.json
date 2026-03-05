@@ -7,16 +7,16 @@
     "install": {
       "commands": [
         "npm install -g pnpm",
-        "cd frontend && pnpm install --frozen-lockfile"
+        "pnpm install --frozen-lockfile"
       ]
     },
     "build": {
       "commands": [
-        "cd frontend && pnpm run build"
+        "pnpm run build"
       ]
     }
   },
   "deploy": {
-    "startCommand": "cd /app/frontend && node_modules/.bin/next start -p ${PORT:-3000}"
+    "startCommand": "node_modules/.bin/next start -p ${PORT:-3000}"
   }
 }
