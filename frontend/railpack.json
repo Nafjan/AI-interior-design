@@ -20,6 +20,6 @@
     }
   },
   "deploy": {
-    "startCommand": "cd /app/frontend && node node_modules/next/dist/bin/next.js start -p ${PORT:-3000}"
+    "startCommand": "cd /app/frontend && node node_modules/next/dist/bin/next start -p ${PORT:-3000}"
   }
 }
