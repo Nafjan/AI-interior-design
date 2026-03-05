@@ -7,16 +7,16 @@
     "install": {
       "commands": [
         { "cmd": "npm install -g pnpm", "customName": "Install pnpm" },
-        { "cmd": "cd frontend && pnpm install --frozen-lockfile", "customName": "Install Node dependencies" }
+        { "cmd": "sh -c 'cd frontend && pnpm install --frozen-lockfile'", "customName": "Install Node dependencies" }
       ]
     },
     "build": {
       "commands": [
-        { "cmd": "cd frontend && pnpm run build", "customName": "Build Next.js app" }
+        { "cmd": "sh -c 'cd frontend && pnpm run build'", "customName": "Build Next.js app" }
       ]
     }
   },
   "deploy": {
-    "startCommand": "cd /app/frontend && node_modules/.bin/next start -p ${PORT:-3000}"
+    "startCommand": "sh -c 'cd /app/frontend && node_modules/.bin/next start -p ${PORT:-3000}'"
   }
 }
