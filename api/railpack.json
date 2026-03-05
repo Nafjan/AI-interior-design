@@ -26,6 +26,6 @@
         "include": ["/mise/shims", "/mise/installs"]
       }
     ],
-    "startCommand": "PATH=/mise/shims:$PATH uv --directory /app/api run uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+    "startCommand": "PYTHONPATH=/app/api /app/api/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
   }
 }

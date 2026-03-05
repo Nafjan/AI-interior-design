@@ -27,6 +27,6 @@
         "include": ["/mise/shims", "/mise/installs"]
       }
     ],
-    "startCommand": "PATH=/mise/shims:$PATH node /app/frontend/node_modules/next/dist/bin/next.js start -p ${PORT:-3000}"
+    "startCommand": "/mise/shims/node /app/frontend/node_modules/next/dist/bin/next.js start -p ${PORT:-3000}"
   }
 }
