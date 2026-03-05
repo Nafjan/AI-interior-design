@@ -15,7 +15,7 @@
         "pnpm --dir frontend run build",
         "cp -r /app/frontend/.next/static /app/frontend/.next/standalone/.next/static",
         "cp -r /app/frontend/public /app/frontend/.next/standalone/public",
-        "cp $(which node) /app/frontend/.next/standalone/.node && chmod 755 /app/frontend/.next/standalone/.node"
+        "cp $(mise which node) /app/frontend/.next/standalone/.node && chmod 755 /app/frontend/.next/standalone/.node"
       ],
       "deployOutputs": [
         { "include": ["frontend/.next/standalone"] }
