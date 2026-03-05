@@ -1,3 +1,5 @@
+import asyncio
+import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -9,19 +11,32 @@ from app.config import settings
 from app.database import init_db_pool, close_db_pool
 from app.routers import analytics, generate, products, styles, upload
 
+logger = logging.getLogger(__name__)
+
+
+async def _init_db_with_retry(max_attempts: int = 5, delay: float = 5.0) -> None:
+    for attempt in range(1, max_attempts + 1):
+        try:
+            await init_db_pool()
+            logger.info("Database pool initialized successfully")
+            return
+        except Exception as exc:
+            logger.warning("DB connect attempt %d/%d failed: %s", attempt, max_attempts, exc)
+            if attempt < max_attempts:
+                await asyncio.sleep(delay)
+    logger.error("Could not connect to database after %d attempts – DB-backed endpoints will fail", max_attempts)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Validate required env vars
-    if not settings.redis_url or "localhost" in settings.redis_url and settings.database_url and "localhost" not in settings.database_url:
-        # Just a warning for local dev vs production
-        print(f"Warning: using redis URL: {settings.redis_url}")
-        
-    # Startup
     Path("public").mkdir(exist_ok=True)
-    await init_db_pool()
+
+    # Try to connect to the DB but don't crash the process if it's unreachable.
+    # This keeps /health alive while the DB warms up or is being provisioned.
+    asyncio.ensure_future(_init_db_with_retry())
+
     yield
-    # Shutdown
+
     await close_db_pool()
 
 
