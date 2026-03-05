@@ -16,7 +16,10 @@
         "node -e \"var fs=require('fs'); var real=fs.realpathSync(process.execPath); fs.copyFileSync(real,'/app/frontend/.node'); fs.chmodSync('/app/frontend/.node',0o755);\""
       ],
       "deployOutputs": [
-        { "include": ["frontend"] }
+        {
+          "include": ["frontend"],
+          "exclude": ["frontend/.next/cache", "frontend/node_modules/.cache", "frontend/.git"]
+        }
       ]
     }
   },
