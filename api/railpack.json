@@ -12,10 +12,13 @@
       ],
       "commands": [
         "uv --directory api sync --no-dev"
+      ],
+      "deployOutputs": [
+        { "include": ["api"] }
       ]
     }
   },
   "deploy": {
-    "startCommand": "cd api && .venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+    "startCommand": "PYTHONPATH=/app/api /app/api/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
   }
 }
