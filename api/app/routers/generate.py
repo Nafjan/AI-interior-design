@@ -1,5 +1,6 @@
-"""Generation endpoint - runs the AI pipeline as a FastAPI background task."""
+"""Generation endpoint - runs the AI pipeline in-process for POC."""
 
+import asyncio
 import base64
 import json
 import logging
@@ -7,7 +8,7 @@ import time
 from uuid import uuid4
 
 import httpx
-from fastapi import APIRouter, BackgroundTasks, HTTPException
+from fastapi import APIRouter, HTTPException
 
 from app.config import settings
 from app.database import get_db_pool
@@ -23,9 +24,8 @@ from app.services.storage import upload_image
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-
 @router.post("/generate", response_model=GenerateResponse)
-async def trigger_generation(request: GenerateRequest, background_tasks: BackgroundTasks):
+async def trigger_generation(request: GenerateRequest):
     job_id = str(uuid4())
     session_id = str(request.session_id)
     style_id = request.style_id
@@ -37,15 +37,16 @@ async def trigger_generation(request: GenerateRequest, background_tasks: Backgro
     await redis.set(f"job:{job_id}:status", json.dumps(initial_status), ex=3600)
     await redis.close()
 
-    # Run pipeline as a FastAPI background task (no separate worker process needed)
-    background_tasks.add_task(_run_pipeline_background, job_id, session_id, style_id)
+    # Process asynchronously in this same web process (no separate worker required).
+    asyncio.create_task(_run_pipeline_background(job_id, session_id, style_id))
 
     return GenerateResponse(job_id=job_id, status="queued")
 
 
 async def _run_pipeline_background(job_id: str, session_id: str, style_id: str):
-    """Background task wrapper - runs the pipeline with its own Redis connection."""
+    """Background wrapper that owns its Redis connection lifecycle."""
     from redis.asyncio import Redis
+
     redis = Redis.from_url(settings.redis_url, decode_responses=True)
     try:
         await _run_pipeline_impl(job_id, session_id, style_id, redis)
