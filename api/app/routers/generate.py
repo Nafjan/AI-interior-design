@@ -216,24 +216,23 @@ async def _run_pipeline_impl(job_id: str, session_id: str, style_id: str, redis)
 
 async def _download_image(url: str) -> bytes | None:
     """Download an image from a URL."""
-    if not url:
+    if not url or url.startswith("data:"):
+        if url and url.startswith("data:"):
+            # Extract base64 data
+            try:
+                b64 = url.split(",", 1)[1]
+                return base64.b64decode(b64)
+            except Exception:
+                pass
         return None
-    if url.startswith("data:"):
-        try:
-            b64 = url.split(",", 1)[1]
-            return base64.b64decode(b64)
-        except Exception:
-            return None
 
     try:
-        # Try local file lookup first for images stored by storage.py
-        # Base dir matches storage.py: api/app/routers/generate.py -> api/public
-        from pathlib import Path
-        _local_base = Path(__file__).parent.parent.parent / "public"
+        # Handle local storage URLs (when running without cloud storage)
         api_url = settings.api_url.rstrip("/")
         if url.startswith(api_url + "/public/"):
-            rel = url[len(api_url) + len("/public/"):]  # e.g. "uploads/xxx.jpg"
-            p = _local_base / rel
+            local_path = url.replace(api_url + "/", "")
+            from pathlib import Path
+            p = Path(local_path)
             if p.exists():
                 return p.read_bytes()
 
