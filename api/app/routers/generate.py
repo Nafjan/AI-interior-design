@@ -1,6 +1,5 @@
-"""Generation endpoint - runs the AI pipeline synchronously for POC."""
+"""Generation endpoint - runs the AI pipeline as a FastAPI background task."""
 
-import asyncio
 import base64
 import json
 import logging
@@ -8,9 +7,7 @@ import time
 from uuid import uuid4
 
 import httpx
-from arq import create_pool
-from arq.connections import RedisSettings
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 from app.config import settings
 from app.database import get_db_pool
@@ -26,17 +23,9 @@ from app.services.storage import upload_image
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-# Global ARQ redis pool
-_arq_pool = None
-
-async def get_arq_pool():
-    global _arq_pool
-    if _arq_pool is None:
-        _arq_pool = await create_pool(RedisSettings.from_dsn(settings.redis_url))
-    return _arq_pool
 
 @router.post("/generate", response_model=GenerateResponse)
-async def trigger_generation(request: GenerateRequest):
+async def trigger_generation(request: GenerateRequest, background_tasks: BackgroundTasks):
     job_id = str(uuid4())
     session_id = str(request.session_id)
     style_id = request.style_id
@@ -48,11 +37,24 @@ async def trigger_generation(request: GenerateRequest):
     await redis.set(f"job:{job_id}:status", json.dumps(initial_status), ex=3600)
     await redis.close()
 
-    # Enqueue task in ARQ
-    arq_pool = await get_arq_pool()
-    await arq_pool.enqueue_job("generate_renders_task", job_id, session_id, style_id)
+    # Run pipeline as a FastAPI background task (no separate worker process needed)
+    background_tasks.add_task(_run_pipeline_background, job_id, session_id, style_id)
 
     return GenerateResponse(job_id=job_id, status="queued")
+
+
+async def _run_pipeline_background(job_id: str, session_id: str, style_id: str):
+    """Background task wrapper - runs the pipeline with its own Redis connection."""
+    from redis.asyncio import Redis
+    redis = Redis.from_url(settings.redis_url, decode_responses=True)
+    try:
+        await _run_pipeline_impl(job_id, session_id, style_id, redis)
+    except Exception as e:
+        logger.exception("Pipeline background task failed: %s", e)
+        status = {"job_id": job_id, "status": "failed", "error": str(e)}
+        await redis.set(f"job:{job_id}:status", json.dumps(status), ex=3600)
+    finally:
+        await redis.close()
 
 @router.get("/generate/{job_id}", response_model=JobStatus)
 async def get_job_status(job_id: str):
@@ -214,23 +216,24 @@ async def _run_pipeline_impl(job_id: str, session_id: str, style_id: str, redis)
 
 async def _download_image(url: str) -> bytes | None:
     """Download an image from a URL."""
-    if not url or url.startswith("data:"):
-        if url and url.startswith("data:"):
-            # Extract base64 data
-            try:
-                b64 = url.split(",", 1)[1]
-                return base64.b64decode(b64)
-            except Exception:
-                pass
+    if not url:
         return None
+    if url.startswith("data:"):
+        try:
+            b64 = url.split(",", 1)[1]
+            return base64.b64decode(b64)
+        except Exception:
+            return None
 
     try:
-        # Handle local storage URLs (when running without cloud storage)
+        # Try local file lookup first for images stored by storage.py
+        # Base dir matches storage.py: api/app/routers/generate.py -> api/public
+        from pathlib import Path
+        _local_base = Path(__file__).parent.parent.parent / "public"
         api_url = settings.api_url.rstrip("/")
         if url.startswith(api_url + "/public/"):
-            local_path = url.replace(api_url + "/", "")
-            from pathlib import Path
-            p = Path(local_path)
+            rel = url[len(api_url) + len("/public/"):]  # e.g. "uploads/xxx.jpg"
+            p = _local_base / rel
             if p.exists():
                 return p.read_bytes()
 

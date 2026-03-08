@@ -59,10 +59,14 @@ def upload_image(file_bytes: bytes, folder: str = "uploads", extension: str = "j
         except Exception as e:
             logger.warning("GCS upload failed, falling back to local: %s", e)
 
-    # Fallback: use local storage for dev
-    upload_dir = Path("public") / folder
+    # Fallback: use local storage
+    # Use absolute path anchored to this file's location so it's consistent
+    # regardless of working directory: api/app/services/storage.py -> api/public
+    _local_base = Path(__file__).parent.parent.parent / "public"
+    _local_base.mkdir(parents=True, exist_ok=True)
+    upload_dir = _local_base / folder
     upload_dir.mkdir(parents=True, exist_ok=True)
-    file_path = Path("public") / filename
+    file_path = _local_base / filename
     with open(file_path, "wb") as f:
         f.write(resized)
 
